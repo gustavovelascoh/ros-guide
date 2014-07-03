@@ -3,32 +3,83 @@
 Como ROS es un sistema tan grande y complejo, se puede dividir en tres niveles para su mejor comprensión y apropiación. El primero es el nivel del sistema de archivos el cual describe la forma en cómo ROS trabaja con los paquetes, su definición y  los archivos y carpetas que estos contienen. El segundo nivel es el nivel funcional, llamado grafo de computación, en el que se especifican los elementos que hacen parte de la ejecución, su relación y su arquitectura de comunicaciones. El tercer y último nivel es el nivel de la comunidad, lo que incluye el manejo del software en cuanto a la contribución de paquetes, las distribuciones, los repositorios, las listas de correo, entre otros.
 
 \section{Sistema de archivos}
-\subsection{Conceptos básicos}
----TODO---
+
+El sistema de archivos consiste en todos los recursos que se encuentran en disco después de instalarse ROS. Esto comprende los archivos y la estructura de directorios. 
+
+\subsection{Conceptos Básicos}
+
+Los elementos que componen este sistema son los paquetes (packages), los meta-paquetes (Meta-packages), el manifiesto de paquete (Package Manifest), los tipos de mensaje (Message type) y los tipos de servicio (Service type).
+
+\begin{description}
+\item[Paquetes]
+{
+Los paquetes son la principal estructura organizacional de ROS. Puede contener procesos (nodos), librerías, archivos de configuración, datasets y demás elementos que al organizarse juntos sean de utilidad.
+}
+\item[Meta-Paquetes]
+{
+	Los Meta-paquetes son paquetes creados especialmente para agrupar paquetes que comparten cierta similitud. Comunmente son utilizados como una herramienta de compatibilidad para un elemento de versiones anteriores, los Stacks.
+}
+\item[Manifiesto de Paquete]
+{
+	Los manifiestos son archivos .xml que proveen información de los paquetes, por ejemplo datos como nombre, versión, autores, licencias, dependencias, entre otros.
+}
+\item[Tipos de Mensajes]
+{
+	Son archivos .msg que contienen la descripción de la estructura de datos para el envío de cierto tipo de mensaje.
+}
+\item[Tipos de Servicios]
+{
+	Son archivos .srv que contienen la descripción de la estructura de datos para las peticiones y respuestas de determinado tipo de servicio.
+}
+\end{description}
+
+\subsection{Estructura de Directorios}
+
+En disco, cada paquete corresponde a un directorio con el mismo nombre. Comunmente este directorio contiene dos archivos: package.xml y CMakeLists.txt. Además, contiene directorios como include, src, msg, srv y scripts.
+
+El archivo package.xml es el manifiesto del paquete que, como se mencionó anteriormente, contiene información sobre el paquete. El archivo CMakeLists.txt es usado para la compilación del código fuente y por lo general es autogenerado. Los directorios include y src son los que contienen el código de los procesos o nodos implementados, usualmente en C++. Por otra parte, el directorio scripts contiene archivos ejecutables, ya sean nodos o archivos con otra utilidad, en lenguaje interpretado como Python o bash. Finalmente los directorios msg y srv contienen los archivos que describen los tipos de mensajes y tipos de servicios, respectivamente.
+
 \section{Grafo de computación}
 
 El funcionamiento de ROS se basa en una arquitectura de comunicación peer-to-peer, entre unidades llamadas nodos,  los cuales se comunican entre sí intercambiando información. Para entender un poco más y profundizar en el funcionamiento de ROS es necesario describir algunos conceptos de este sistema, que son nodos (nodes), maestro (master), servidor de parámetros (parameter server), mensajes (messages), temas (topics) y servicios (services). A este conjunto de elementos junto a la arquitectura de comunicación se les llama grafo de computación  (Computation graph).
 
-\subsection{Elementos en el grafo de computación}
 
-Nodos:
-Los nodos son los procesos que se ejecutan, estos se comunican entre sí usando los temas para la transmisión de los mensajes, también usan invocación de servicios y usando el servidor de parámetros. Los nodos están pensados para ser granulares, es decir, un sistema para controlar un robot suele posee muchos nodos; Un nodo puede controlar el sensor láser, otro nodo controla los motores, otro nodo puede realizar la localización, otro nodo realiza la planeación de rutas y otro nodo puede controlar la representación gráfica del sistema.
-
-Maestro
+\begin{description}
+\item[Nodos]
+{
+Los nodos son los procesos que se ejecutan, estos se comunican entre sí usando los temas para la transmisión de los mensajes, usando invocación de servicios y usando el servidor de parámetros. Los nodos están pensados para ser granulares, es decir, un sistema para controlar un robot suele posee muchos nodos; Un nodo puede controlar el sensor láser, otro nodo controla los motores, otro nodo puede realizar la localización, otro nodo realiza la planeación de rutas y otro nodo puede controlar la representación gráfica del sistema.
+}
+\item[Maestro]
+{
 El maestro ROS (ROS master) es el que provee al sistema de servicios de nombramiento  y registro a los nodos, además permite la búsqueda de los elementos en el grafo de computación. El maestro también realiza el seguimiento de los publicadores y suscriptores a los temas, así como de los servicios. El papel del maestro es permitir a los nodos encontrarse el uno al otro y una vez localizados, estos se pueden comunicar entre sí.
-
-Servidor de Parámetros
+}
+\item[Servidor de Parámetros]
+{
 El servidor de parámetros hace parte del maestro y se usa para almacenar datos en una ubicación central, accesible por los nodos en tiempo de ejecución. Usualmente es utilizado para almacenar valores estáticos y parámetros de configuración.
+}
+\item[Mensajes]
+{
+Los mensajes son datos que con los que se comunican los nodos entre sí. Estos mensajes son como estructuras similares a las usadas en lenguaje C, que contienen campos tipados. Tambien los campos pueden ser arreglos de estos tipos y otros mensajes.
+}
 
-Mensajes
-Los mensajes son datos que con los que se comunican los nodos entre sí. Estos mensajes son como estructuras de tipo C, que contienen campos tipados. Tambien los campos pueden ser arreglos de estos tipos y otros mensajes.
+\item[Temas]
+{
+Los temas son los encargados de enrutar los mensajes. Pueden ser vistos como el canal por el cual viajan los mensajes entre los nodos. Estos pueden suscribirse a los temas y también publicar en ellos; además un nodo puede publicar y suscribirse a varios temas y al mismo tiempo, varios nodos pueden publicar y suscribirse a un tema.
+}
+\item[Servicios]
+{
+Aunque los temas ofrecen flexibilidad en la comunicación, no es apropiado para interacción de tipo petición-respuesta, algo que puede ser requerido en un sistema distribuido. Este tipo de interacción puede implementarse usando los servicios. Estos se definen como una estructura con un par de mensajes, uno para la petición y otro para la respuesta. Cada servicio se registra con un nombre en un nodo para hacerlo disponible.
+}
+\end{description}
 
-Temas
-Los temas son los encargados de enrutar los mensajes.
+%--TODO--
 
---TODO--
-
-\subsection{Funcionamiento}
----TODO---
+%\subsection{Funcionamiento}
+%---TODO---
 \section{Comunidad}
----TODO---
+
+El nivel de la comunidad incluye los elementos que tienen que ver con el intercambio de software y conocimiento sobre ROS. Estos elementos comprenden las distribuciones, los repositorios, la wiki, la lista de correo y el sitio de preguntas.
+
+Las distribuciones de ROS, son un conjunto de paquetes versionados  que pueden ser instalados. Similar a las distribuciones de los sistemas Linux, hacen posible installar un conjunto de software y hacerlo sostenible. Los repositorios son los lugares donde se almacena el código fuente, donde diferentes instituciones o personas comparten el código desarrollado y es liberado.
+
+Por otra parte, la wiki es la principal fuente de información sobre ROS y sus componentes. Contiene la documentación y cualquiera puede publicar en ella, hacer correcciones o actualizaciones y escribir tutoriales. La lista de correo es el medio más rápido para enterarse de las noticias de ROS; nuevo software, actualizaciones, eventos, Bugs, etc. Finalmente, el sitio de preguntas, answers.ros.org es el lugar principal para la solución de dudas.
