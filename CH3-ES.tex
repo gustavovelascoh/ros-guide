@@ -1,0 +1,97 @@
+\chapter{Instalando ROS}
+
+Las instrucciones que se presentan a continuación, son para instalar ROS Hydro Medusa en Ubuntu 12.04 (Precise Pangolin). Esta distribución de ROS solo es compatible con las distribuciones de Ubuntu 12.04 (Precise), 12.10 (Quantal) y 13.04 (Raring). 
+
+\section{Configuración inicial de los repositorios}
+
+Para empezar debemos configurar Ubuntu, específicamente la utilidad apt, para que reconozca los repositorios de ROS y nos permita instalarlo y actualizarlo. Por defecto en Ubuntu 12.04 (precise) ya están habilitados los repositorios universe, multiverse y restricted, lo cual era un paso adicional cuando se instalaba ROS en versiones anteriores de Ubuntu. Para verificarlo podemos abrir la interfaz gráfica de orígenes de software con el siguiente comando:
+
+\begin{lstlisting}
+$ python /usr/bin/software-properties-gtk
+\end{lstlisting}
+
+Aquí podemos verificar que están seleccionados los cuatro tipos de repositorios (main, universe, restricted y multiverse). Ahora, lo que debemos hacer es añadir los repositorios de ROS a la lista de fuentes de software y configurar el acceso con los siguientes comandos. 
+
+\begin{lstlisting}
+$ sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu precise main" > /etc/apt/sources.list.d/ros-latest.list'
+$ wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+\end{lstlisting}
+
+Ahora ya tenemos los repositorios de ROS configurados para su administración desde el comando apt.
+
+\section{Instalación y configuración inicial}
+
+Aunque ya configuramos los repositorios de ROS para su funcionamiento con apt, debemos corroborar que el listado de paquetes esté actualizado:
+
+\begin{lstlisting}[language = bash]
+$ sudo apt-get update
+\end{lstlisting}
+
+Debido a que ROS contiene gran cantidad de herramientas y utilidades, hay 4 opciones de instalación. La primera, la recomendada y la que vamos a usar, es la instalación completa (Desktop-full), la cual incluye todo el core de ROS, librerías genéricas de varios robots, simuladores 2D y 3D, herramientas de visualización y librerías de navegación y percepción.
+
+\begin{lstlisting}[language = bash]
+$ sudo apt-get install ros-hydro-desktop-full
+\end{lstlisting}
+
+La segunda opción (Desktop) incluye el core, las librerías de robots y las herramientas de visualización. 
+
+\begin{lstlisting}[language = bash]
+$ sudo apt-get install ros-hydro-desktop
+\end{lstlisting}
+
+La tercera opción (ROS-base) solamente tiene el core de ROS y librerías de comunicación, nada de interfaces gráficas (GUI). 
+
+\begin{lstlisting}[language = bash]
+$ sudo apt-get install ros-hydro-ros-base
+\end{lstlisting}
+
+La última opción es instalar paquetes individuales especificando el nombre en el comando:
+
+\begin{lstlisting}[language = bash]
+$ sudo apt-get install ros-hydro-PACKAGE
+\end{lstlisting}
+
+por ejemplo:
+
+\begin{lstlisting}[language = bash]
+$ sudo apt-get install ros-hydro-slam-gmapping
+\end{lstlisting}
+
+Para la  instalación de la versión completa se descargan aproximadamente 900 MB, que descargando a 1M/s se demoraría unos 15 minutos, y tras esto se configurarán los paquetes descargados, así que mientras se descarga, podemos ir por un café y leer un poco sobre la estructura y el funcionamiento de ROS si no lo hemos hecho :D
+
+...
+
+Después de haber finalizado la instalación completa, debemos configurar algunas herramientas adicionales y configurar nuestro entorno de trabajo.
+
+Empezaremos inicializando rosdep, una herramienta que nos facilita la instalación de algunas dependencias de paquetes y que es necesaria para ejecutar algunos componentes de ROS
+
+\begin{lstlisting}[language = bash]
+$ sudo rosdep init
+$ rosdep update
+\end{lstlisting}
+
+Es conveniente que cada vez que iniciemos sesión las variables de entorno de ROS sean cargadas automáticamente:
+
+\begin{lstlisting}[language = bash]
+$ echo "source /opt/ros/hydro/setup.bash" >> ~/.bashrc
+$ source ~/.bashrc
+\end{lstlisting}
+
+Verificamos que ya están declaradas las variables de entorno de ROS:
+
+\begin{lstlisting}[language = bash]
+$ export | grep ROS
+declare -x ROS_DISTRO="hydro"
+declare -x ROS_ETC_DIR="/opt/ros/hydro/etc/ros"
+declare -x ROS_MASTER_URI="http://localhost:11311"
+declare -x ROS_PACKAGE_PATH="/opt/ros/hydro/share:/opt/ros/hydro/stacks"
+declare -x ROS_ROOT="/opt/ros/hydro/share/ros"
+\end{lstlisting}
+
+Ahora instalaremos rosinstall, una herramienta que nos ayudará a descargar las fuentes de los paquetes y a instalarlos. Se descargarán aproximadamente 10 MB.
+
+\begin{lstlisting}[language = bash]
+$ sudo apt-get install python-rosinstall
+\end{lstlisting}
+
+Finalmente, tenemos ROS Hydro Medusa instalado y configurado en nuestro sistema Ubuntu Precise Pangolin.

@@ -1,0 +1,30 @@
+\documentclass[draft]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[final]{listings}
+\usepackage{courier}
+\lstset{	
+	basicstyle=\footnotesize\ttfamily,
+	language=bash,
+	breaklines=true,
+	fontadjust=true
+}
+
+\begin{document}
+
+\title{Guía de ROS}
+\author{Gustavo Velasco-Hernández}
+\date{\today}
+\maketitle
+
+\tableofcontents
+\setcounter{tocdepth}{3}
+
+\input{CH1-ES}
+\input{CH2-ES}
+\input{CH3-ES}
+
+\bibliographystyle{plain}
+\bibliography{./CH1}
+
+\end{document}
