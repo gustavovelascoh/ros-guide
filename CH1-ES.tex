@@ -1,8 +1,6 @@
 \chapter{Introducción a ROS\protect}
 
-%\footnotetext[1]{Este capítulo está basado en la documentación de ROS en: http://wiki.ros.org/ROS/introduction}
-
-ROS, (Robot Operating System) es una herramienta para la creación de aplicaciones en robótica cuyo objetivo es promover el reuso de código de diferentes autores y para diferentes aplicaciones. Qué es ROS exactamente, cuál es su finalidad, para qué sirve y quiénes lo usan actualmente son preguntas que se responderan en esta sección \footnote{Este capítulo está basado en la documentación de ROS en: http://wiki.ros.org/ROS/introduction}.
+ROS, (Robot Operating System) es una herramienta para la creación de aplicaciones en robótica cuyo objetivo es promover el reuso de código de diferentes autores y para diferentes aplicaciones. Qué es ROS exactamente, cuál es su finalidad, para qué sirve y quiénes lo usan actualmente son preguntas que se responderan en esta sección\footnote{Este capítulo está basado en la documentación de ROS en http://wiki.ros.org/ROS/introduction}.
 
 \section{¿Qué es ROS?}
 
@@ -26,7 +24,8 @@ El objetivo de ROS no es ser un framework con las mejores características, en v
 
 \section{¿Qué contiene ROS?}
 
-Entre el conjunto de librerías y herramientas que contiene ROS, cabe destacar su integración con software de procesamiento de imágenes como OpenCV[2] y para el procesamiento de nubes de puntos como PCL[3]. ROS también se integra con plataformas de simulación 2D como Stage[4] y simulación 3D como Gazebo[5].
+Entre el conjunto de librerías y herramientas que contiene ROS, cabe destacar su integración con software de procesamiento de imágenes como OpenCV\footnote{Open Source Computer Vision (http://opencv.org/)} y para el procesamiento de nubes de puntos como PCL\footnote{Point Cloud Library (http://pointclouds.org/)}. ROS también se integra con plataformas de simulación 2D como Stage\footnote{Stage Robot Simulator (http://rtv.github.io/Stage/)} y simulación 3D como Gazebo\footnote{Gazebo Simulator (http://gazebosim.org/)}.
+
 
 Incluido en ROS se encuentra RVIZ que es una herramienta de visualización 3D que permite integrar información de sensores, modelos de robots y otros datos en una sola vista y también permite interactuar con esta visualización.
 
@@ -74,6 +73,14 @@ A Continuación se presentan algunas ventajas y desventajas del uso de ROS[6]
 
 \section{Ejemplos del uso de ROS}
 
-Como ROS fue concebido como una herramienta para realizar aplicaciones en el campo de la robótica, su uso se ha extendido en todas las áreas y escenarios concernientes a esta. Se usa tanto con manipuladores como en plataformas móviles. En universidades y entornos académicos, ya sea para enseñanza o investigación. En la industria también se ha adoptado su uso y se ha consolidado la iniciativa ROS industrial.
+Debido a que ROS fue concebido como una herramienta para realizar aplicaciones en el campo de la robótica, su uso se ha extendido en todas las áreas y escenarios concernientes a esta. Se usa tanto en manipuladores como en plataformas móviles. En universidades y entornos académicos, ya sea para enseñanza o investigación y también en la industria. Incluso se creó el proyecto ROS Industrial\footnote{ROS Industrial (http://rosindustrial.org/)} como una extensión de ROS para aplicaciones industriales.
 
-En cuestión de hardware, también se ha hecho un sistema multiplataforma; usado con robots humanoides como NAO, plataformas para investigación como PR2 y  robots industriales como Baxter; vehiculos como los robots Pioneer o kuka. E incluso plataformas educativas como el Lego Mindstorm NXT y la computadora Raspberry Pi.
+ROS también es un sistema multiplataforma; se ha usado con robots humanoides como NAO, plataformas para investigación como el PR2, robots industriales como Baxter, vehículos como los robots Pioneer, Kuka o Turtle Bot; e incluso plataformas educativas como el Lego Mindstorm NXT y la computadora Raspberry Pi. Algunas de estas plataformas se muestran en la figura \ref{robots}.
+
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=0.25]{img/robots.jpg}
+\caption{Algunas plataformas en las que se usa ROS. Desde arriba a la izquierda: Baxter, Pioneer AT, NAO, TurtleBot 2, PR2, Lego Mindstorm NXT}
+\label{robots}
+\end{figure} 
